@@ -1,8 +1,10 @@
 package com.openopen.line_bot_tets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,8 +34,10 @@ import util.ImprovedDateTypeAdapter;
 public class Webhook {
 	
 	ReplyMessageRepo replyMsgRepo;
+	PushMessageRepo pushMessageRepo;
 	public Webhook() {
 		replyMsgRepo = new ReplyMessageRepo();
+		pushMessageRepo = new PushMessageRepo();
 	}
 	
 	@GET
@@ -103,5 +107,24 @@ public class Webhook {
 	      .entity(message)
 	      .build();
 	}
+	
+	
+	
+	
+	
+	@GET
+	@Path("/pushtest")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String pushTest() {
+		String userId = "U7eb6745a25c52c75bcaba6a078757480";
+		String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		try {
+			pushMessageRepo.pushTest(userId, timeStamp);
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return "pushTest Got it!";
+    }
 
 }
