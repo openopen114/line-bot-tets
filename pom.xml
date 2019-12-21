@@ -70,17 +70,27 @@
     		<artifactId>line-bot-api-client</artifactId>
     		<version>1.11.0</version>
   	</dependency>
+  	
   	<dependency>
   		<groupId>com.linecorp.bot</groupId>
     		<artifactId>line-bot-model</artifactId>
     		<version>1.11.0</version>
   	</dependency>
+  	
   	<!-- JSON  -->
 	<dependency>
     		<groupId>com.google.code.gson</groupId>
     		<artifactId>gson</artifactId>
     		<version>2.7</version>
 	</dependency>
+	
+	<!-- apache httpclient -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.5.10</version>
+	</dependency>
+	
 
 
    </dependencies>

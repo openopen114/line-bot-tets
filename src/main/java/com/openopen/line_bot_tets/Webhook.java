@@ -1,5 +1,6 @@
 package com.openopen.line_bot_tets;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.ParseException;
 import org.glassfish.jersey.internal.util.collection.StringIgnoreCaseKeyComparator;
 
 import com.google.gson.Gson;
@@ -29,14 +31,21 @@ import util.ImprovedDateTypeAdapter;
 @Path("webhook")
 public class Webhook {
 	
+	ReplyMessageRepo replyMsgRepo;
+	public Webhook() {
+		replyMsgRepo = new ReplyMessageRepo();
+	}
+	
 	@GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
+	 
         return "webhook Got it!";
     }
 	
 	
-	
+	//TODO:確認 request header 中的 X-Line-Signature signature 與 digest 相符。
+	//https://developers.line.biz/zh-hant/docs/messaging-api/building-bot/#getting-content-sent-by-users
 	
 	@POST
 	@Consumes("application/json")
@@ -66,10 +75,28 @@ public class Webhook {
 	    //使用者 line id
 	    String userid = lineBotReq.getEvents().get(0).getSource().getUserId();
 	    
+	    // replyToken
+	    String replyToken = lineBotReq.getEvents().get(0).getReplyToken();
+	    
 	    //時間戳計
 	    Date timestamp =  lineBotReq.getEvents().get(0).getTimestamp();
 	    
-	    System.out.println(timestamp.toString() + " ==> " + userid + " : " + text);
+	    System.out.println(timestamp.toString());
+	    System.out.println("replyToken:" + replyToken);
+	    System.out.println("userid:" + userid);
+	    System.out.println("text:" + text);
+	    
+	    
+	    System.out.println("---------");
+	     
+	    try {
+			replyMsgRepo.reployEcho(replyToken, text);
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	     
 	 
 	    return Response
 	      .status(Response.Status.OK)

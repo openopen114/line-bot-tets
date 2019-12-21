@@ -1,16 +1,18 @@
 package model;
 
 public class Message {
-	public String Type;
+	public String type;
 	public String id;
 	public String text;
 
+	 
+
 	public String getType() {
-		return Type;
+		return type;
 	}
 
 	public void setType(String type) {
-		Type = type;
+		this.type = type;
 	}
 
 	public String getId() {
